@@ -25,9 +25,14 @@ const skyMaterial = new THREE.MeshBasicMaterial({
 const sky = new THREE.Mesh(skyGeometry, skyMaterial);
 scene.add(sky);
 
+const groundTexture = textureLoader.load('../public/photo-ground-texture-pattern.jpg');
+groundTexture.wrapS = THREE.RepeatWrapping;
+groundTexture.wrapT = THREE.RepeatWrapping;
+groundTexture.repeat.set(10, 10); // Repeat the texture
+
 // Create a flat ground plane
 const planeGeometry = new THREE.PlaneGeometry(100, 100);
-const planeMaterial = new THREE.MeshBasicMaterial({ color: 0x808080, side: THREE.DoubleSide });
+const planeMaterial = new THREE.MeshBasicMaterial({ map: groundTexture, side: THREE.DoubleSide });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.rotation.x = -Math.PI / 2; // Rotate plane to lie flat on the XZ plane
 scene.add(plane);
