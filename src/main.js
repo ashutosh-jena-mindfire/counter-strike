@@ -51,6 +51,20 @@ controls.addEventListener('unlock', () => {
   console.log('Pointer unlocked');
 });
 
+// Create a directional light to simulate sunlight
+const sunLight = new THREE.DirectionalLight(0xffffff, 1); // White light, full intensity
+sunLight.position.set(50, 100, -50); // Position the light to act like the sun
+sunLight.castShadow = true; // Enable shadows
+
+// Optional: Customize shadow properties
+sunLight.shadow.mapSize.width = 1024;
+sunLight.shadow.mapSize.height = 1024;
+sunLight.shadow.camera.near = 0.5;
+sunLight.shadow.camera.far = 500;
+
+// Add the light to the scene
+scene.add(sunLight);
+
 // Movement variables
 let moveForward = false;
 let moveBackward = false;
