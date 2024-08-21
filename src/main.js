@@ -13,7 +13,7 @@ camera.position.set(0, 5, 0); // Position the camera slightly above the ground
 
 // Load a texture for the sky
 const textureLoader = new THREE.TextureLoader();
-const skyTexture = textureLoader.load('../public/208.jpg');
+const skyTexture = textureLoader.load('/208.jpg');
 
 // Create a large sphere to act as the sky
 const skyGeometry = new THREE.SphereGeometry(500, 60, 40);
@@ -25,7 +25,7 @@ const skyMaterial = new THREE.MeshBasicMaterial({
 const sky = new THREE.Mesh(skyGeometry, skyMaterial);
 scene.add(sky);
 
-const groundTexture = textureLoader.load('../public/photo-ground-texture-pattern.jpg');
+const groundTexture = textureLoader.load('/photo-ground-texture-pattern.jpg');
 groundTexture.wrapS = THREE.RepeatWrapping;
 groundTexture.wrapT = THREE.RepeatWrapping;
 groundTexture.repeat.set(10, 10); // Repeat the texture
@@ -69,6 +69,31 @@ sunLight.shadow.camera.far = 500;
 
 // Add the light to the scene
 scene.add(sunLight);
+
+// Add ambient light for softer shadows
+const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft white light
+scene.add(ambientLight);
+
+// Function to create buildings
+function createBuilding(x, z) {
+  const buildingHeight = Math.random() * 20 + 10; // Random height between 10 and 30
+  const cityTexture = textureLoader.load('/texture-building-with-many-windows.jpg');
+  const buildingGeometry = new THREE.BoxGeometry(5, buildingHeight, 5);
+  const buildingMaterial = new THREE.MeshLambertMaterial({ map: cityTexture});
+
+  const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+  building.position.set(x, buildingHeight / 2, z);
+  scene.add(building);
+}
+
+// Add buildings to the scene
+for (let i = -40; i <= 40; i += 10) {
+  for (let j = -40; j <= 40; j += 10) {
+    if (Math.random() > 0.2) { // Randomly skip some positions to create streets
+      createBuilding(i, j);
+    }
+  }
+}
 
 // Movement variables
 let moveForward = false;
